@@ -32,7 +32,6 @@ def formata(co):
     return re
 
 
-
 """
 
 Implemente uma função que calcula o horário de uma turma de alunos.
@@ -85,6 +84,3 @@ def horario(ucs, alunos):
     re.sort(key=lambda x: x[0])
     re.sort(key=lambda x: x[1], reverse=True)
     return re
-
-
-
