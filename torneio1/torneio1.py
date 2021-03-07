@@ -8,51 +8,6 @@ No caso do '{' as instruções seguintes deverão também estar identadas
 
 """
 
-
-def formata2(codigo):
-    inchavetas = 0
-    res = ""
-    pos = 0
-    for car in codigo:
-        pos += 1
-        if pos == len(codigo):
-            res = res + car
-        elif (car == ' ' and codigo[pos] == ' ') or (car == ' ' and res[-1] == '\n'):
-            res = res
-        elif car == '{':
-            if (pos >= 1):
-                if res[-1] == '\n':
-                    if inchavetas > 0:
-                        x = inchavetas
-                        while (x > 0):
-                            res = res + ' '
-                            x -= 1
-            inchavetas += 2
-            res = res + car + '\n'
-        elif car == '}':
-            inchavetas -= 2
-            if (pos >= 1):
-                if res[-1] == '\n':
-                    if inchavetas > 0:
-                        x = inchavetas
-                        while (x > 0):
-                            res = res + ' '
-                            x -= 1
-            res = res + car + '\n'
-        elif car == ';':
-            res = res + car + '\n'
-        else:
-            if (pos > 1):
-                if res[-1] == '\n':
-                    if inchavetas > 0:
-                        x = inchavetas
-                        while (x > 0):
-                            res = res + ' '
-                            x -= 1
-            res = res + car
-
-    return res
-
 def formata(co):
     # Clean input
     co1 = (" ".join(co.split())
