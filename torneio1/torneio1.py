@@ -8,6 +8,7 @@ No caso do '{' as instruções seguintes deverão também estar identadas
 
 """
 
+
 def formata(co):
     # Clean input
     co1 = (" ".join(co.split())
