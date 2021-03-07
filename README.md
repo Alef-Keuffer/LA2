@@ -2,14 +2,14 @@
 
 ## Torneios
 
-- [Torneio 1](https://github.com/Alef-Keuffer/LA2/blob/master/torneio1/torneio1.py)
+- [Torneio 1](/Codeboard/torneio1.py)
 
 ## Treinos
 
 ### Complete
 
-- [Treino 1](https://github.com/Alef-Keuffer/LA2/blob/master/treino1/treino1.py)
+- [Treino 1](/Codeboard/treino1.py)
 
 ### In progress
 
-- [Treino 2](https://github.com/Alef-Keuffer/LA2/blob/master/treino2/treino2.py)
+- [Treino 2](/Codeboard/treino2.py)
