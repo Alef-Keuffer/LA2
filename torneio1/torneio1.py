@@ -9,18 +9,62 @@ No caso do '{' as instruções seguintes deverão também estar identadas
 """
 
 
+def formata2(codigo):
+    inchavetas = 0
+    res = ""
+    pos = 0
+    for car in codigo:
+        pos += 1
+        if pos == len(codigo):
+            res = res + car
+        elif (car == ' ' and codigo[pos] == ' ') or (car == ' ' and res[-1] == '\n'):
+            res = res
+        elif car == '{':
+            if (pos >= 1):
+                if res[-1] == '\n':
+                    if inchavetas > 0:
+                        x = inchavetas
+                        while (x > 0):
+                            res = res + ' '
+                            x -= 1
+            inchavetas += 2
+            res = res + car + '\n'
+        elif car == '}':
+            inchavetas -= 2
+            if (pos >= 1):
+                if res[-1] == '\n':
+                    if inchavetas > 0:
+                        x = inchavetas
+                        while (x > 0):
+                            res = res + ' '
+                            x -= 1
+            res = res + car + '\n'
+        elif car == ';':
+            res = res + car + '\n'
+        else:
+            if (pos > 1):
+                if res[-1] == '\n':
+                    if inchavetas > 0:
+                        x = inchavetas
+                        while (x > 0):
+                            res = res + ' '
+                            x -= 1
+            res = res + car
+
+    return res
+
 def formata(co):
     # Clean input
-    co = " ".join(co.split())  # remove extra spaces
-    co1 = (co
+    co1 = (" ".join(co.split())
            .replace('{ ', '{')
            .replace("; ", ";")
            .replace(" ;", ";")
-           .replace('}', '}'))
+           .replace('} ', '}'))
     # Find the parts that I will format
     li = [x for x in range(len(co1)) if co1[x] in {'{', ';', '}'}]
     # li = list(filter(lambda x: co1[x] in {'{', ';', '}'}, [x for x in range(len(co1))]))
     # Format those parts
+    re = co1
     for i in range(len(li)):
         if i == 0:
             re = co1[:li[i] + 1]
@@ -30,6 +74,7 @@ def formata(co):
         else:
             re += '\n' + co1[li[i - 1] + 1:]
     return re
+
 
 
 """
@@ -55,16 +100,18 @@ output
 
 ucs = {"la2": ("quarta", 16, 2), "pi": ("terca", 15, 1), "cp": ("terca", 14, 2), "so": ("quinta", 9, 3)}
 alunos = {5000: {"la2", "cp"}, 2000: {"la2", "cp", "pi"}, 3000: {"cp", "poo"}, 1000: {"la2", "cp", "so"}}
+[(1000, 7), (5000, 4)]
 
 ucs = {"la2": ("quarta", 16, 2), "pi": ("terca", 15, 1)}
 alunos = {5000: {"la2", "pi"}, 2000: {"pi", "la2"}}
+[(2000, 3), (5000, 3)])
 """
 
 
 def conflict(ucs):
     li = sorted(ucs.items(), key=lambda x: x[1][1])  # Sort by start time
     li.sort(key=lambda x: x[1][0])  # Sort by day
-    return [li[i] for i in range(1, len(li)) if
+    return [(li[i - 1][0], li[i][0]) for i in range(1, len(li)) if
             li[i - 1][1][0] == li[i][1][0]  # same day
             and li[i - 1][1][1] < li[i][1][1] + li[i][1][2]  # start(i-1) < end(i)
             and li[i][1][1] < li[i - 1][1][1] + li[i - 1][1][2]]  # start(i) < end(i-1)
@@ -84,7 +131,7 @@ def horario(ucs, alunos):
     return re
 
 
-"""
+'''
 def conflict(ucs):
     li = sorted(ucs.items(), key=lambda x: (x[1][1], x[1][2]))
     li.sort(key=lambda x: x[1][0])
@@ -94,7 +141,8 @@ def conflict(ucs):
                       and li[i][1][1] < li[i - 1][1][1] + li[i - 1][1][2]  # start(i) < end(i-1)
                       , range(1, len(li))))
 
-
+'''
+'''
 def horario(ucs, alunos):
     conf = conflict(ucs)
     re = []
@@ -107,9 +155,9 @@ def horario(ucs, alunos):
     re.sort(key=lambda x: x[0])
     re.sort(key=lambda x: x[1], reverse=True)
     return re
-"""
 
-"""
+'''
+'''
 def conflict(ucs):
     conf = set()
     li = sorted(ucs.items(), key=lambda x: (x[1][1], x[1][2]))
@@ -122,4 +170,5 @@ def conflict(ucs):
             if li[i - 1][1][1] < li[i][1][1] + li[i][1][2] and li[i][1][1] < li[i - 1][1][1] + li[i - 1][1][2]:
                 conf.add((li[i - 1][0], li[i][0]))
     return conf2
-"""
+
+'''
