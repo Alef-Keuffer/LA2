@@ -86,44 +86,4 @@ def horario(ucs, alunos):
     return re
 
 
-'''
-def conflict(ucs):
-    li = sorted(ucs.items(), key=lambda x: (x[1][1], x[1][2]))
-    li.sort(key=lambda x: x[1][0])
-    return set(filter(lambda i:
-                      li[i - 1][1][0] == li[i][1][0]  # same day
-                      and li[i - 1][1][1] < li[i][1][1] + li[i][1][2]  # start(i-1) < end(i)
-                      and li[i][1][1] < li[i - 1][1][1] + li[i - 1][1][2]  # start(i) < end(i-1)
-                      , range(1, len(li))))
 
-'''
-'''
-def horario(ucs, alunos):
-    conf = conflict(ucs)
-    re = []
-    for aluno in alunos:
-        conflicting = list(filter(lambda x: x[0] in alunos[aluno] and x[1] in alunos[aluno], conf))
-        non_existent = list(filter(lambda x: x not in ucs, alunos[aluno]))
-        if not non_existent and not conflicting:
-            t = sum(map(lambda x: ucs[x][2], alunos[aluno]))
-            re.append((aluno, t))
-    re.sort(key=lambda x: x[0])
-    re.sort(key=lambda x: x[1], reverse=True)
-    return re
-
-'''
-'''
-def conflict(ucs):
-    conf = set()
-    li = sorted(ucs.items(), key=lambda x: (x[1][1], x[1][2]))
-    li.sort(key=lambda x: x[1][0])
-    conf2 = set(filter(lambda i: li[i - 1][1][0] == li[i][1][0] \
-                                 and li[i - 1][1][1] < li[i][1][1] + li[i][1][2] \
-                                 and li[i][1][1] < li[i - 1][1][1] + li[i - 1][1][2], range(1,len(li))))
-    for i in range(1, len(li)):
-        if li[i - 1][1][0] == li[i][1][0]:
-            if li[i - 1][1][1] < li[i][1][1] + li[i][1][2] and li[i][1][1] < li[i - 1][1][1] + li[i - 1][1][2]:
-                conf.add((li[i - 1][0], li[i][0]))
-    return conf2
-
-'''
