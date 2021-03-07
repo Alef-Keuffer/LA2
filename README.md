@@ -2,7 +2,7 @@
 
 ## Torneios
 
-- [Torenio 1](https://github.com/Alef-Keuffer/LA2/blob/master/torneio1/torneio1.py)
+- [Torneio 1](https://github.com/Alef-Keuffer/LA2/blob/master/torneio1/torneio1.py)
 
 ## Treinos
 
