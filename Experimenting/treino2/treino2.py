@@ -1,38 +1,5 @@
 from math import ceil
 
-'''
-
-Implemente uma função que calcula a área de um mapa que é acessível por
-um robot a partir de um determinado ponto.
-O mapa é quadrado e representado por uma lista de strings, onde um '.' representa
-um espaço vazio e um '*' um obstáculo.
-O ponto inicial consistirá nas coordenadas horizontal e vertical, medidas a
-partir do canto superior esquerdo.
-O robot só consegue movimentar-se na horizontal ou na vertical.
-
-'''
-
-
-def call_army(mapa, x, y, s, c):
-    rob(mapa, x + 1, y, s, c)
-    rob(mapa, x - 1, y, s, c)
-    rob(mapa, x, y - 1, s, c)
-    rob(mapa, x, y + 1, s, c)
-
-
-def rob(mapa, x, y, s, c):
-    if x in range(s) and y in range(s):
-        if (x, y) not in c:
-            if mapa[x][y] == '.':
-                c.add((x, y))
-                call_army(mapa, x, y, s, c)
-
-
-def area(p, mapa):
-    aval = set()
-    rob(mapa, p[0], p[1], len(mapa), aval)
-    return len(aval)
-
 
 '''
 
@@ -88,3 +55,44 @@ def saltos(o, d):
     # x,y axis is 3 moves
     p = fix_vec(o, d)
     return saltos_rec(p)
+
+
+"""
+def viagem_v2(rotas, source, target):
+    length = {}
+    C = set()
+    Adj = {}
+    for l in rotas:
+        i = 0
+        while i in range(len(l) - 1):
+            if (l[i], l[i + 2]) not in length:
+                length[l[i], l[i + 2]] = l[i + 1]
+                Adj[l[i]] = {l[i + 2]}
+            if (l[i + 2], l[i]) not in length:
+                length[l[i + 2], l[i]] = l[i + 1]
+                Adj[l[i + 2]] = {l[i]}
+            length[l[i], l[i + 2]] = min(length[l[i], l[i + 2]], l[i + 1])
+            length[l[i + 2], l[i]] = min(length[l[i + 2], l[i]], l[i + 1])
+            C.add(l[i])
+            C.add(l[i + 2])
+            i += 2
+    return dijkstra_v2(C, length, source, target)
+
+def dijkstra_v2(C, length, source, target):
+    Q = set()
+    dist = {}
+    for v in C:
+        dist[v] = float('inf')
+        Q.add(v)
+    dist[source] = 0
+    while Q:
+        u = min(Q, key=lambda x: dist[x])
+        Q.remove(u)
+        if u == target:
+            break
+        for v in [x for x in Q if (x, u) in length or (u, x) in length]:  # only v that are still in Q
+            alt = dist[u] + length[u, v]
+            if alt < dist[v]:
+                dist[v] = alt
+    return dist[target]
+"""
