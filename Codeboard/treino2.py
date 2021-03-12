@@ -1,3 +1,5 @@
+from Codeboard.support import dijkstra, build, dijkstra_all_paths
+
 """
 Implemente uma função que calcula a área de um mapa que é acessível por
 um robot a partir de um determinado ponto.
@@ -7,6 +9,12 @@ O ponto inicial consistirá nas coordenadas horizontal e vertical, medidas a
 partir do canto superior esquerdo.
 O robot só consegue movimentar-se na horizontal ou na vertical.
 """
+
+
+def area(p, mapa):
+    aval = set()
+    rob(mapa, p[0], p[1], len(mapa), aval)
+    return len(aval)
 
 
 def call_army(mapa, x, y, s, c):
@@ -24,12 +32,6 @@ def rob(mapa, x, y, s, c):
                 call_army(mapa, x, y, s, c)
 
 
-def area(p, mapa):
-    aval = set()
-    rob(mapa, p[0], p[1], len(mapa), aval)
-    return len(aval)
-
-
 """
 O objectivo deste problema é determinar quantos movimentos são necessários para
 movimentar um cavalo num tabuleiro de xadrez entre duas posições.
@@ -39,16 +41,13 @@ Assuma que o tabuleiro tem tamanho ilimitado.
 """
 
 
+def saltos(o, d):
+    return saltos_rec(sorted(map(abs, (o[0] - d[0], o[1] - d[1]))))
+
+
 def saltos_rec(x):
     p = sorted(map(abs, x))
-    if (p[0] and p[1]) < 3:
-        return 3 * (p[0] + p[1]) % 4
-    return 1 + saltos_rec((p[0] - 1, p[1] - 2))
-
-
-def saltos(o, d):
-    p = sorted(map(abs, (o[0] - d[0], o[1] - d[1])))
-    return saltos_rec(p)
+    return 3 * (p[0] + p[1]) % 4 if (p[0] and p[1]) < 3 else 1 + saltos_rec((p[0] - 1, p[1] - 2))
 
 
 """
@@ -62,40 +61,12 @@ Assuma que cada rota funciona nos dois sentidos.
 
 def viagem(rotas, source, target):
     adj = build([(r[i], r[i + 2], r[i + 1]) for r in rotas for i in range(len(r) - 1) if i % 2 == 0])
-    return dijkstra(adj, source, target)
+    return dijkstra(adj, source, target)[0]
 
 
-def dijkstra(adj, o, target=None):
-    pi = {}
-    dist = {o: 0}
-    Q = {o}
-    while Q:
-        v = min(Q, key=lambda x: dist[x])
-        Q.remove(v)
-        if target is not None:
-            if v == target:
-                break
-        for d in adj[v]:
-            if d not in dist:
-                Q.add(d)
-                dist[d] = float("inf")
-            if dist[v] + adj[v][d] < dist[d]:
-                pi[d] = v
-                dist[d] = dist[v] + adj[v][d]
-    if target is not None:
-        return dist[target]
-    return dist, pi
-
-
-def build(edges, adj=None):
-    # Assumes edges :: [(v,v,weight::int)]
-    if adj is None:
-        adj = {}
-    for o, d, p in edges:
-        if o not in adj:
-            adj[o] = {}
-        if d not in adj:
-            adj[d] = {}
-        adj[o][d] = p
-        adj[d][o] = p
-    return adj
+# %%
+def tamanho(ruas):
+    edges = [(r[0], r[-1], len(r)) for r in ruas]
+    vertices = {x[0] for x in ruas}.union({x[-1] for x in ruas})
+    dis = dijkstra_all_paths(build(edges), vertices)
+    return max([x[1] for r in dis for x in r.items()])
